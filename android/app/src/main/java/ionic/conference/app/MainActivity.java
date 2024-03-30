@@ -1,4 +1,4 @@
-package com.ionicframework.conferenceapp;
+package ionic.conference.app;
 
 import com.getcapacitor.BridgeActivity;
 

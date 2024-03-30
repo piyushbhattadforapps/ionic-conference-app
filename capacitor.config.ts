@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'ionic.conference.app',
+  appId: 'ionic.conference.newone7838.app',
   appName: 'ionic-conference-app',
   webDir: 'www',
   bundledWebRuntime: false,

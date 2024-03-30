@@ -1,7 +1,11 @@
 import { Component, ElementRef, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { ConferenceData } from '../../providers/conference-data';
-import { Platform } from '@ionic/angular';
+import { ActionSheetController, AlertController, Platform } from '@ionic/angular';
 import { DOCUMENT} from '@angular/common';
+import { StatusBar } from '@capacitor/status-bar';
+import { SplashScreen } from '@capacitor/splash-screen';
+import { Capacitor, Plugins } from '@capacitor/core'
+import { Geolocation } from '@capacitor/geolocation';
 
 import { darkStyle } from './map-dark-style';
 
@@ -16,7 +20,10 @@ export class MapPage implements AfterViewInit {
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     public confData: ConferenceData,
-    public platform: Platform) {}
+    public platform: Platform,
+    private actionSheetCtrl: ActionSheetController,
+    private alertCtrl: AlertController,
+    ) {}
 
   async ngAfterViewInit() {
     const appEl = this.doc.querySelector('ion-app');
@@ -25,6 +32,26 @@ export class MapPage implements AfterViewInit {
     if (appEl.classList.contains('dark-theme')) {
       style = darkStyle;
     }
+
+    this.actionSheetCtrl.create({header: 'Please Choose', buttons: [
+      {text: 'Auto-Locate', handler: () => {
+        if (!Capacitor.isPluginAvailable('Geolocation')){
+          this.alertCtrl.create({header: 'Could not fetch the lcoation', message: 'please use the map to pick the location'});
+          return;
+        }
+        Geolocation.getCurrentPosition().then(
+          geoPosition => {
+            const coord : any = {lat: geoPosition.coords.latitude, lng:geoPosition.coords.longitude};
+            console.log(coord);
+          }
+        ).catch(err => {
+
+        });
+      }},
+      {text: 'Cancel', role: 'cancel'}
+    ]}).then(actionSheetEl => {
+      actionSheetEl.present();
+    });
 
     const googleMaps = await getGoogleMaps(
       'YOUR_API_KEY_HERE'
