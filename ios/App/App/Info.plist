@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Always allow Geolocation?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow Geolocation?</string>
 	<key>CFBundleDisplayName</key>
 	<string>ionic-conference-app</string>
 	<key>CFBundleExecutable</key>
